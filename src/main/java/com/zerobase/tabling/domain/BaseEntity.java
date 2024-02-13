@@ -10,11 +10,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-@EntityListeners(value = {AuditingEntityListener.class})
+@EntityListeners(value = AuditingEntityListener.class)
 public class BaseEntity {
-//    @Id
-//    @GeneratedValue
-//    private Long id;
 
     @CreatedDate
     private LocalDateTime createdAt;

@@ -1,6 +1,7 @@
 package com.zerobase.tabling.security;
 
 import com.zerobase.tabling.service.CustomerService;
+import com.zerobase.tabling.service.ManagerService;
 import com.zerobase.tabling.type.UserType;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ public class TokenProvider {
     private static final String KEY_ROLES = "roles";
     
     private final CustomerService customerService;
+
+    private final ManagerService managerService;
 
     @Value("${spring.jwt.secret}")
     private String secretKey;
@@ -45,6 +48,11 @@ public class TokenProvider {
                 .compact();
     }
 
+    /**
+     * 토큰 유효성 검사
+     * @param jwtToken
+     * @return
+     */
     public boolean validateToken(String jwtToken) {
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
@@ -54,9 +62,23 @@ public class TokenProvider {
         }
     }
 
+    /**
+     * 토큰 인증 정보 조회
+     * @param token
+     * @return
+     */
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails
-                = this.customerService.loadUserByUsername(this.getUsername(token));
+        String userType = this.parseClaims(token).get(KEY_ROLES).toString();
+
+        UserDetails userDetails = null;
+
+        if (userType.equals("MANAGER")) {
+            userDetails
+                    = this.managerService.loadUserByUsername(this.getUsername(token));
+        }else if (userType.equals("CUSTOMER")){
+            userDetails
+                    = this.customerService.loadUserByUsername(this.getUsername(token));
+        }
 
         return new UsernamePasswordAuthenticationToken(
                 userDetails, "", userDetails.getAuthorities());

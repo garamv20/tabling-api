@@ -1,6 +1,7 @@
 package com.zerobase.tabling.dto;
 
 import com.zerobase.tabling.domain.CustomerEntity;
+import com.zerobase.tabling.domain.ManagerEntity;
 import com.zerobase.tabling.type.UserType;
 import lombok.Data;
 
@@ -24,6 +25,15 @@ public class Auth {
                     .email(this.email)
                     .password(this.password)
                     .userType(UserType.CUSTOMER)
+                    .build();
+        }
+
+        public ManagerEntity toManagerEntity() {
+            return ManagerEntity.builder()
+                    .username(this.username)
+                    .email(this.email)
+                    .password(this.password)
+                    .userType(UserType.MANAGER)
                     .build();
         }
 

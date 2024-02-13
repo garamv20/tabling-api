@@ -1,13 +1,12 @@
 package com.zerobase.tabling.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
-
 import com.zerobase.tabling.type.UserType;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
 import java.util.Collection;
 
 @NoArgsConstructor
@@ -15,8 +14,8 @@ import java.util.Collection;
 @Getter
 @Setter
 @Builder
-@Entity(name = "CUSTOMER")
-public class CustomerEntity extends BaseEntity implements UserDetails {
+@Entity(name = "MANAGER")
+public class ManagerEntity extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
