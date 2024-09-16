@@ -1,4 +1,4 @@
-package com.zerobase.tabling.domain;
+package com.zerobase.tabling.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zerobase.tabling.type.UserType;
@@ -15,7 +15,7 @@ import java.util.Collection;
 @Setter
 @Builder
 @Entity(name = "MANAGER")
-public class ManagerEntity extends BaseEntity implements UserDetails {
+public class Manager extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

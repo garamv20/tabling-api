@@ -1,6 +1,6 @@
 package com.zerobase.tabling.service;
 
-import com.zerobase.tabling.domain.CustomerEntity;
+import com.zerobase.tabling.entity.Customer;
 import com.zerobase.tabling.dto.Auth;
 import com.zerobase.tabling.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ public class CustomerService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        CustomerEntity customer = this.customerRepository.findByEmail(email)
+        Customer customer = this.customerRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("couldn't find email -> " + email));
         return User.withUsername(customer.getEmail())
                 .password(this.passwordEncoder.encode(customer.getPassword()))
@@ -41,7 +41,7 @@ public class CustomerService implements UserDetailsService {
      * @param customer
      * @return
      */
-    public CustomerEntity register(Auth.SignUp customer) {
+    public Customer register(Auth.SignUp customer) {
         boolean exists = this.customerRepository.existsByEmail(customer.getEmail());
 
         if (exists) {
@@ -57,7 +57,7 @@ public class CustomerService implements UserDetailsService {
      * @param customer
      * @return
      */
-    public CustomerEntity authenticate(Auth.SignIn customer) {
+    public Customer authenticate(Auth.SignIn customer) {
         var user = this.customerRepository.findByEmail(customer.getEmail())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 ID 입니다."));
 

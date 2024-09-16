@@ -1,4 +1,4 @@
-package com.zerobase.tabling.domain;
+package com.zerobase.tabling.entity;
 
 import javax.persistence.*;
 import lombok.Getter;

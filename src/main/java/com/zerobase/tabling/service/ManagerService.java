@@ -1,10 +1,8 @@
 package com.zerobase.tabling.service;
 
-import com.zerobase.tabling.domain.CustomerEntity;
-import com.zerobase.tabling.domain.ManagerEntity;
+import com.zerobase.tabling.entity.Manager;
 import com.zerobase.tabling.dto.Auth;
 import com.zerobase.tabling.repository.ManagerRepository;
-import com.zerobase.tabling.type.UserType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;
@@ -30,7 +28,7 @@ public class ManagerService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        ManagerEntity manager = this.managerRepository.findByEmail(email)
+        Manager manager = this.managerRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("couldn't find email -> " + email));
 
         return User.withUsername(manager.getEmail())
@@ -44,7 +42,7 @@ public class ManagerService implements UserDetailsService {
      * @param manager
      * @return
      */
-    public ManagerEntity register(Auth.SignUp manager) {
+    public Manager register(Auth.SignUp manager) {
         boolean exists = this.managerRepository.existsByEmail(manager.getEmail());
 
         if (exists) {
@@ -60,7 +58,7 @@ public class ManagerService implements UserDetailsService {
      * @param manager
      * @return
      */
-    public ManagerEntity authenticate(Auth.SignIn manager) {
+    public Manager authenticate(Auth.SignIn manager) {
         var user = this.managerRepository.findByEmail(manager.getEmail())
                 .orElseThrow(() -> new RuntimeException("존재하지 않는 ID 입니다."));
 

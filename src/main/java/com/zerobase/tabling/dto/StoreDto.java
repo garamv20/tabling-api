@@ -1,20 +1,20 @@
 package com.zerobase.tabling.dto;
 
-import com.zerobase.tabling.domain.ManagerEntity;
-import com.zerobase.tabling.domain.StoreEntity;
+import com.zerobase.tabling.entity.Manager;
+import com.zerobase.tabling.entity.Store;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
 public class StoreDto {
-    private ManagerEntity manager;
+    private Manager manager;
     private String name;
     private String address;
     private String phoneNumber;
     private String description;
 
-    public static StoreDto from(StoreEntity store) {
+    public static StoreDto from(Store store) {
         return StoreDto.builder()
                 .manager(store.getManager())
                 .name(store.getName())

@@ -1,7 +1,7 @@
 package com.zerobase.tabling.service;
 
-import com.zerobase.tabling.domain.ManagerEntity;
-import com.zerobase.tabling.domain.StoreEntity;
+import com.zerobase.tabling.entity.Manager;
+import com.zerobase.tabling.entity.Store;
 import com.zerobase.tabling.dto.CreateStore;
 import com.zerobase.tabling.dto.StoreDto;
 import com.zerobase.tabling.exception.TablingException;
@@ -24,14 +24,14 @@ public class StoreService {
      * @return
      */
     public StoreDto createStore(CreateStore.Request request) {
-        ManagerEntity manager = this.managerRepository.findById(request.getManagerId())
+        Manager manager = this.managerRepository.findById(request.getManagerId())
                 .orElseThrow(() -> new TablingException(ErrorCode.MANAGER_NOT_FOUND));
 
         if (this.storeRepository.existsByNameAndManager(request.getName(), manager)){
             throw new TablingException(ErrorCode.ALREADY_EXIST_STORE);
         }
 
-        return StoreDto.from(this.storeRepository.save(StoreEntity.builder()
+        return StoreDto.from(this.storeRepository.save(Store.builder()
                         .manager(manager)
                         .name(request.getName())
                         .address(request.getAddress())

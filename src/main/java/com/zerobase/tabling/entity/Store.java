@@ -1,4 +1,4 @@
-package com.zerobase.tabling.domain;
+package com.zerobase.tabling.entity;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Builder
 @Entity(name = "STORE")
-public class StoreEntity extends BaseEntity{
+public class Store extends BaseEntity{
     /**
      * 매장 아이디
      */
@@ -23,7 +23,7 @@ public class StoreEntity extends BaseEntity{
      */
     @OneToOne
     @JoinColumn(name = "manager_id")
-    private ManagerEntity manager;
+    private Manager manager;
 
     /**
      * 매장 이름
